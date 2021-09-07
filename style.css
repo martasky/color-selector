@@ -36,3 +36,47 @@ label,
 div {
   font-family: "Montserrat", sans-serif;
 }
+
+/**************color wheel*************/
+body {
+  margin: 1rem;
+  margin-top: 3rem;
+}
+#displayColors {
+  display: flex;
+  flex-direction: row;
+  height: 300px;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.colorBox {
+  height: 200px;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+#color1,
+#color2,
+#color3,
+#color4,
+#color5 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#color1 .colorBox {
+  background-color: beige;
+}
+#color2 .colorBox {
+  background-color: black;
+}
+#color3 .colorBox {
+  background-color: blue;
+}
+#color4 .colorBox {
+  background-color: green;
+}
+#color5 .colorBox {
+  background-color: yellow;
+}
