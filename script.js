@@ -1,47 +1,39 @@
 "use strict";
 
-window.addEventListener("DOMContentLoaded", start);
+window.addEventListener("DOMContentLoaded", getColor);
 
-function start() {
+function getColor() {
   const userChoice = document.querySelector("#colorPicker");
 
-  userChoice.addEventListener("input", showColor, false);
-  userChoice.addEventListener("input", showHexCode, false);
+  userChoice.addEventListener("input", convertColor);
 
   console.log(userChoice);
 }
 
-function showColor(e) {
-  let displayColor = document.querySelector("#display_color");
-  displayColor.style.backgroundColor = e.target.value;
-  console.log(e.target.value);
-  console.log("Updated to " + displayColor.style.backgroundColor);
+function convertColor(event) {
+  let hex = getHex(event);
+  console.log(hex);
+  let rgb = getRgb(hex);
+  let hsl = getHsl(rgb);
+  let css = getCss(rgb);
+  displayColor(hex, rgb, hsl, css);
 }
-
-function showHexCode(e) {
-  let hex = document.querySelector(".hex span");
-  hex.textContent = e.target.value;
-  showRGB(e.target.value);
+function getHex(hexValue) {
+  console.log(hexValue);
+  return hexValue.target.value;
 }
-
-function showRGB(myColor) {
-  let r = parseInt(myColor.substring(1, 3), 16);
-  let g = parseInt(myColor.substring(3, 5), 16);
-  let b = parseInt(myColor.substring(5), 16);
+function getRgb(hex) {
+  let r = parseInt(hex.substring(1, 3), 16);
+  let g = parseInt(hex.substring(3, 5), 16);
+  let b = parseInt(hex.substring(5), 16);
   console.log(r, g, b);
-  let colorRGB = {
-    r: r,
-    g: g,
-    b: b,
-  };
-  let rgb = document.querySelector(".rgb span");
-  rgb.textContent = `${colorRGB.r}, ${colorRGB.g}, ${colorRGB.b}`;
-  showHSL(colorRGB);
+  return { r, g, b };
 }
-function showHSL(rgbVal) {
-  let r = rgbVal.r;
-  let b = rgbVal.b;
-  let g = rgbVal.g;
+
+function getHsl(rgb) {
+  let r = rgb.r;
+  let b = rgb.b;
+  let g = rgb.g;
 
   r /= 255;
   g /= 255;
@@ -77,21 +69,34 @@ function showHSL(rgbVal) {
   s *= 100;
   l *= 100;
 
-  let hslObj = {
-    h: Math.round(h),
-    s: Math.round(s),
-    l: Math.round(l),
-  };
+  return { h: Math.round(h), s: Math.round(s), l: Math.round(l) };
+}
 
-  console.log(hslObj);
-  /* h = Math.round(h);
-  s = Math.round(s);
-  l = Math.round(l); */
+function getCss(rgb) {
+  let cssStr = `rgb( ${rgb.r}, ${rgb.g}, ${rgb.b} )`;
+  return cssStr;
+}
 
-  let hsl = document.querySelector(".hsl span");
-  hsl.textContent = `${hslObj.h}, ${hslObj.s}%, ${hslObj.l}%`;
+function displayColor(hexVal, rgbVal, hslVal, cssVal) {
+  showColor(cssVal);
+  showHex(hexVal);
+  showRGB(rgbVal);
+  showHSL(hslVal);
+}
+function showColor(color) {
+  let displayColor = document.querySelector("#display_color");
+  displayColor.style.backgroundColor = color;
+}
+function showHex(hex) {
+  let hexOutput = document.querySelector(".hex span");
+  hexOutput.textContent = hex;
+}
 
-  console.log(hsl.textContent);
-
-  console.log("this is hsl" + hsl.textContent);
+function showRGB(rgb) {
+  let rgbOutput = document.querySelector(".rgb span");
+  rgbOutput.textContent = `${rgb.r}, ${rgb.g}, ${rgb.b}`;
+}
+function showHSL(hsl) {
+  let hslOutput = document.querySelector(".hsl span");
+  hslOutput.textContent = `${hsl.h}, ${hsl.s}%, ${hsl.l}%`;
 }
